@@ -1,0 +1,246 @@
+Question 1
+
+Any variable declared in the Stored Package Specification may be accessed from:
+
+Answers:	
+a. *Anywhere outside or inside that Package*
+b. Only from inside the Package
+c. Only from SQL*PLUS
+d. Just from Stored Package Procedures 
+
+Variables declared in the specification are public. Thus, they can be accessed anywhere.
+
+Question 2
+
+If you want to see how Procedure update_emp was created, the right query in SQL*PLUS is:  
+
+Answers:	
+a. SELECT text FROM user_objects WHERE object_name = 'UPDATE_EMP'; <- no text field in user_objects data dictionary
+b. SELECT line FROM user_source  WHERE name = 'update_emp'; <- tables names are stored in upper case
+c. SELECT line FROM user_procedures WHERE name = 'UPDATE_EMP'; <- name is not a field in user_procedures
+d. *SELECT text FROM user_source WHERE name = 'UPDATE_EMP';*
+
+
+
+Question 3
+
+Evaluate this cursor:
+
+Cursor c1(v_salary Number(8,2)) IS
+	Select employee_id, job_id, hire_date
+		From      employees
+		Where    salary > v_salary;
+
+Why does this statement cause an error:
+
+
+Answers:	
+a. A parameter is missing IN, OUT or IN OUT specification <- You do not use these specifications with cursors      
+b. The Select statement is missing the INTO clause <- INTO clause appears in the FETCH statement
+c. The WHERE clause can’t be used in a CURSOR statement <- Yes it can!
+d. *The size of a variable can not be specified*
+
+
+
+Question 4
+
+What type of DML trigger regarding Timing does not exist?
+
+
+Answers:	
+a. Before
+b. After
+c. *On*
+d. Instead Of
+
+
+Question 5
+
+You want to use Forward Declaration in your Package Body called my_pack with Two Procedures called  m_proc and  t_proc. 
+Both procedures have no arguments. Procedure t_proc is called by procedure m_proc. What is the correct flow of 
+this Package Body (with no code in the executable section), so that your two Procedure Bodies are listed in the alphabetical order.
+
+Answers:	
+a. 
+PROCEDURE m_proc;
+
+PROCEDURE m_proc IS ...  END;
+
+PROCEDURE t_proc IS ... END;
+
+-----------------------------------------------
+*
+b. 
+PROCEDURE t_proc;
+
+PROCEDURE m_proc IS ...  END;
+
+PROCEDURE t_proc IS ... END;
+*
+
+/*
+1. 'M' comes before 'T' in the alphabet, so m_proc is specified before t_proc.
+2. since m_proc calls t_proc, t_proc must be forward declared(the heading of a subprogram must be specified) at the beginning of the Package Body as you must declare the subprogram before calling it.
+*/
+-------------------------------------------------
+
+c. 
+PROCEDURE m_proc;
+
+PROCEDURE t_proc IS ... END;
+
+PROCEDURE m_proc IS ...  END;
+
+------------------------------------------------
+
+d. 
+PROCEDURE t_proc;
+
+PROCEDURE t_proc IS ... END;
+
+PROCEDURE m_proc IS ...  END; 
+
+-------------------------------------------------
+
+Question 6
+
+If certain boolean function was NOT  declared in a Specification of the Package, then what statement is correct?              
+
+Answers:	
+a. This function may be called outside that package only through an assignment to a global variable
+b. This function must be called through a SELECT or DML statement
+c. *Function is private and can not be called outside the package*
+d. Function is global and any statement may call it
+
+
+
+Question 7
+
+CREATE OR REPLACE PACKAGE TESTING	-- Line1
+
+(p_var1 IN varchar2) 			-- Line2 <- Package Specifications don't take arguments
+
+IS                    			-- Line3
+
+:global_var : = 0;                      -- Line4 <- Cannot reference bind variables in a package specification (also b/c you cannot write assignment expressions, you
+						 <- can only initilize newly defined variables with some value. That's want a package initlization block is for)
+	PROCEDURE MYTEST  (             -- Line5    
+
+	p_sal EMPLOYEES.SALARY%TYPE) IS -- Line6 <- IS keyword here implies that a definition is being created, which is wrong
+
+    		Etc.  
+
+
+There are some errors in the Package Spec code above?  What are their line numbers?
+
+Answers:	
+a. 2,3,4,6
+b. *2,4,6*
+c. 2,6
+d. 2,4
+
+
+
+Question 8
+
+CREATE OR REPLACE PROCEDURE  mine(
+
+  p_In IN NUMBER,
+
+  p_Out OUT NUMBER,
+
+  p_InOut IN OUT NUMBER) IS
+
+           v_local NUMBER := 10;
+
+BEGIN
+
+Which one of the following statements will not work in the executable section of the  following procedure?
+
+Answers:	
+a. v_local   	:= v_local + p_In; 
+b. *p_In 	:= v_local;* <- p_In is constant
+c. p_InOut   	:= v_local;
+d. p_Out       	:= p_In + v_local;
+
+
+Question 9
+
+Which statement about Functions is not correct one?
+
+Answers:	
+a. Function must have RETURN Datatype in the Header before IS
+b. *Functions must have exactly one RETURN Value statement* <- Functions can have multiple return statements, but they only return one value (i.e. only one return statement in the function is ever executed).
+c. Functions can take IN and OUT parameters
+d. Functions always return a single value
+
+
+Question 10
+
+Which statement about Procedures is not correct one:
+
+Answers:	
+a. Procedures can take IN, OUT and IN-OUT parameters
+b. Procedures are usually used to perform an action
+c. *Procedures may return One or More values* <- They don't return any value
+d. You may execute Procedure stand alone, by just calling its name in the Block
+
+
+Question 11
+
+CREATE PROCEDURE modify_sales_rep (
+
+p_empid  NUMBER,  p_sal  NUMBER default 5000, p_com NUMBER default 0.2) IS ...
+
+Below are  shown four execution examples for a Procedure declared above, by using various Notations with Actual parameters. Which example is not correct one.?
+
+Answers:	
+a. EXECUTE modify_sales_rep (301);
+b. EXECUTE modify_sales_rep (p_sal=>6000, p_empid=>301);
+c. EXECUTE modify_sales_rep (p_sal=>6000,  p_com=>0, p_empid=>301);
+d. *EXECUTE modify_sales_rep (p_sal=>6000, 301);* <- positional parameters always go before named parameters
+
+
+Question 12
+
+CREATE FUNCTION get_emp_job (
+		p_empid  NUMBER
+	) RETURN VARCHAR2 IS 
+
+	v_job VARCHAR2(15);
+
+BEGIN  ...
+
+	RETURN v_job;  ...
+
+END;
+
+Below are  shown four execution examples for a Function declared above, by using various Methods. Which Method is not correct one.?
+
+Answers:	
+a. 
+*EXECUTE dbms_output.put_line.get_emp_job(201);* <- should be DBMS_OUTPUT.PUT_LINE(get_emp_job(201));
+
+-----------------------------------------------------------------------
+
+b. 
+VARIABLE job VARCHAR2(15)
+EXECUTE :job := get_emp_job(201)
+PRINT job
+
+--------------------------------------------------
+
+c. 
+DECLARE
+   v_job  VARCHAR2(15);
+BEGIN
+   v_job:= get_emp_job (201);
+   DBMS_OUTPUT.PUT_LINE(v_job);
+END;
+
+-----------------------------------------------------------
+
+d. 
+SELECT get_emp_job(201) FROM dual;
+
+-------------------------------------------------------
