@@ -1,0 +1,189 @@
+Evaluate this PL/SQL block and state what will be the Output after its execution(ignoring the message “ PL/SQL procedure successfully completed”)? 
+
+SET  SERVEROUTPUT ON
+
+DECLARE
+
+        V_HOLD 		BOOLEAN;  
+        V_TOTAL 	NUMBER :=3;
+	V_CLASSMIN 	NUMBER :=4;
+
+BEGIN
+
+	IF(V_TOTAL > V_CLASSMIN) THEN
+        	V_HOLD := NOT (V_HOLD);
+        END IF;
+          
+        IF  V_HOLD = TRUE THEN
+        	DBMS_OUTPUT.PUT_LINE('Here');
+        ELSIF V_HOLD = FALSE THEN
+        	DBMS_OUTPUT.PUT_LINE('There');
+        ELSE
+        	DBMS_OUTPUT.PUT_LINE('Nowhere');
+        END IF;
+
+END;   
+
+Answer:
+Nowhere
+
+Question 2
+
+Which of the following is not a valid structure in PL/SQL?
+
+Watch for syntax
+
+Question 3
+
+After this block executes what is true about the change to the database?
+
+DECLARE
+
+	V_MAJOR         BOOLEAN;
+	V_NUM 		INTEGER := 10;
+
+BEGIN
+
+	INSERT INTO departments(department_id, department_name)
+		VALUES(900,'COMPUTER SCIENCE');
+
+
+        IF NVL(V_MAJOR,FALSE) THEN
+		V_NUM := V_NUM -1;
+        END IF;
+
+	IF V_MAJOR THEN
+                ROLLBACK;
+        ELSIF V_NUM < 10 THEN
+		COMMIT;
+        ELSE
+                SAVEPOINT a;
+        END IF;
+
+END;  
+
+Only the user that ran this block will see the changes(SAVEPOINT a was executed and thus user is still in the middle of a transaction).
+
+
+Question 4
+
+
+If the value of x is 600 then which of the statements will execute?
+
+
+IF X > 1200 THEN
+	STATEMENT A;
+ELSIF X > 490 THEN
+	*STATEMENT B;*
+ELSIF X BETWEEN 50 AND 1200 THEN
+	STATEMENT C;
+ELSE
+	STATEMENT D;
+END IF;
+
+ 
+
+
+Question 5
+
+The error in this block happens because of error in which line?
+
+                  1   DECLARE
+
+                  2       V_COUNTER     INTEGER :=1;
+
+                  3   BEGIN
+
+                  4       WHILE V_COUNTER <= 10   LOOP 
+
+                  5             DBMS_OUTPUT.PUT_LINE(V_COUNTER);
+
+                  6             IF V_COUNTER = 5 THEN
+
+                  7                      EXIT;
+
+                  8             END IF;
+
+                  9             V_COUNTER := V_COUNTER + 1;
+
+                  10       END WHILE; <- Should be END LOOP
+
+                  11       DBMS_OUTPUT.PUT_LINE(V_COUNTER);
+
+                  12  END;
+
+
+
+Question 6
+
+What happens when a DELETE statement in a Block with an Exception Handler returns NO rows?
+
+No execption is thrown. DELETE or UPDATE statements may modify 0 or more rows without throwing any execption.
+
+Question 7
+
+Which of the following commands successfully opens the declared cursor?
+
+CURSOR C_STUDENT(P_ID NUMBER) IS
+
+	SELECT LAST_NAME
+
+	FROM STUDENTS
+
+	WHERE ID = P_ID;
+
+
+Syntax:
+
+OPEN c_student(<some value of NUMBER type>);
+
+
+Question 8
+
+You create an INDEX BY  table called student_names. Which of the following  commands may  populate the second row in the table with the name JOHN? Only one option may be correct.
+
+student_names(<index>) := 'JOHN';
+
+
+Question 9
+
+Which cursor attribute evaluates to TRUE when an unsuccessful fetch has occurred?
+
+%NOTFOUND
+
+
+Question 10
+
+Which value is stored in C1%ROWCOUNT if the cursor has performed two successful fetches up to that time and the third FETCH statement has been issued?
+
+2
+
+
+Question 11
+
+What can be possible value of the Index by Table Column?
+
+Quoted from Oracle Database 11g: PL/SQL Fundamentals
+"
+INDEX BY tables have only two columns:
+	A column of integer or string type that acts as the primary key. The key can be numeric,
+	either BINARY_INTEGER or PLS_INTEGER. The BINARY_INTEGER and
+	PLS_INTEGER keys require less storage than NUMBER. They are used to represent
+	mathematical integers in a compact form and to implement arithmetic operations by using
+	machine arithmetic. Arithmetic operations on these data types are faster than NUMBER
+	arithmetic. The key can also be of type VARCHAR2 or one of its subtypes. The examples in
+	this course use the PLS_INTEGER data type for the key column.
+
+	A column of scalar or record data type to hold values. If the column is of scalar type, it can
+	hold only one value. If the column is of record type, it can hold multiple values.
+"
+
+Question 12
+
+Explicit Cursor may use FOR LOOP, and in that case which statement is correct?
+
+FOR implicitly_declared_cursor_name IN cursor_name LOOP
+	-- implicitly_declared_cursor_name will hold the data corresponding to the currently processing row in the active set
+END LOOP;
+
+
